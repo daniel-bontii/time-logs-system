@@ -8,6 +8,7 @@ import com.timelogs.server.repositories.UserRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -76,6 +77,20 @@ public class UserController {
 
         return this.userRepository.save(userToUpdate);
 
+    }
+
+    @DeleteMapping("/{id}")
+    public User deleteUser(@PathVariable(name = "id") Long id) {
+
+        Optional<User> userToDeleteOptional = this.userRepository.findById(id);
+
+        if (!userToDeleteOptional.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user");
+        }
+
+        User userToDelete = userToDeleteOptional.get();
+        this.userRepository.delete(userToDelete);
+        return userToDelete;
     }
 
 }
