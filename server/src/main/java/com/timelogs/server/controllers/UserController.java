@@ -51,4 +51,31 @@ public class UserController {
         return this.userRepository.save(newUser);
     }
 
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable(name = "id") Long id, @RequestBody UserDTO user) {
+
+        Optional<User> userToUpdateOptional = this.userRepository.findById(id);
+
+        if (!userToUpdateOptional.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user");
+        }
+
+        User userToUpdate = userToUpdateOptional.get();
+
+        if (user.getName() != null) {
+            userToUpdate.setName(user.getName());
+        }
+
+        if (user.getDepartment() != null) {
+            userToUpdate.setDepartment(user.getDepartment());
+        }
+
+        if (user.getEmail() != null) {
+            userToUpdate.setEmail(user.getEmail());
+        }
+
+        return this.userRepository.save(userToUpdate);
+
+    }
+
 }
