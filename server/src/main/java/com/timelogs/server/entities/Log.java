@@ -1,14 +1,13 @@
 package com.timelogs.server.entities;
 
-import java.util.List;
+import java.sql.Date;
+import java.sql.Time;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -21,32 +20,29 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @ToString
-@Table(name = "USERS")
-public class User {
+@Entity
+@Table(name = "LOGS")
+public class Log {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "LOG_ID")
+    private Long logId;
+
     @Column(name = "USER_ID")
     private Long userId;
 
     @Column
-    private String name;
+    private Date date;
+
+    @Column(name = "TIME_IN")
+    private Time timeIn;
+
+    @Column(name = "TIME_OUT")
+    private Time timeOut;
 
     @Column
-    private String email;
-
-    @Column
-    private String department;
-
-    @Column
-    private String password;
-
-    @Column
-    private String role;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Log> logs;
+    private String indicator;
 
 }
