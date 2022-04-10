@@ -46,6 +46,20 @@ public class LogController {
         return userOptional.get();
     }
 
+    private String calculateIndicator(String timeIn) {
+        final int ARRIVAL_HOUR = Integer.parseInt(timeIn.substring(0, 2));
+        final int ARRIVAL_MINUTE = Integer.parseInt(timeIn.substring(3, 5));
+
+        if ((ARRIVAL_HOUR <= 6) || (ARRIVAL_HOUR <= 7 && ARRIVAL_MINUTE <= 30)) {
+            return "early";
+        } else if ((ARRIVAL_HOUR == 7 && ARRIVAL_MINUTE >= 30) ||
+                (ARRIVAL_HOUR == 8 && ARRIVAL_MINUTE >= 0 && ARRIVAL_MINUTE <= 30)) {
+            return "in time";
+        } else {
+            return "late";
+        }
+    }
+
     @GetMapping("/{userId}")
     public Iterable<Log> getUserLogs(@PathVariable(name = "userId") Long userId) {
         return this.logRepository.findByUserId(userId);
@@ -53,21 +67,25 @@ public class LogController {
 
     @PostMapping("/{userId}/checkin")
     public Log checkUserIn(@RequestBody LogDTO log, @PathVariable(name = "userId") Long userId) {
-
+        final String TIME_AND_DATE = log.getDate();
+        final String TIME_IN = TIME_AND_DATE.substring(11, 16);
         Log newLog = new Log();
 
         User user = checkValidUser(userId);
 
-        newLog.setDate(Date.valueOf(log.getDate().substring(0, 10)));
+        newLog.setDate(Date.valueOf(TIME_AND_DATE.substring(0, 10)));
 
         if (checkLoginStatus(newLog.getDate(), userId) != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You already checked in today");
 
         }
-        newLog.setTimeIn(Time.valueOf(log.getDate().substring(11, 16) + ":00"));
+        newLog.setTimeIn(Time.valueOf(TIME_IN + ":00"));
         newLog.setUserId(userId);
 
         user.getLogs().add(newLog);
+
+        String checkInIndicator = calculateIndicator(TIME_IN);
+        newLog.setIndicator(checkInIndicator);
 
         this.userRepository.save(user);
 
