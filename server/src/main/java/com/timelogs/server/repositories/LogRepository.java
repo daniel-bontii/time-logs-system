@@ -11,4 +11,6 @@ public interface LogRepository extends CrudRepository<Log, Long> {
     public Log findByDateAndUserId(Date date, Long userId);
 
     public Log findByDateAndTimeOutAndUserId(Date date, Time time, Long userId);
+
+    public Iterable<Log> findByUserId(Long userId);
 }
