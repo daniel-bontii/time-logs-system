@@ -11,6 +11,7 @@ import com.timelogs.server.repositories.LogRepository;
 import com.timelogs.server.repositories.UserRepository;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,6 +44,11 @@ public class LogController {
         }
 
         return userOptional.get();
+    }
+
+    @GetMapping("/{userId}")
+    public Iterable<Log> getUserLogs(@PathVariable(name = "userId") Long userId) {
+        return this.logRepository.findByUserId(userId);
     }
 
     @PostMapping("/{userId}/checkin")
