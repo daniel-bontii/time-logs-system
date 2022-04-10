@@ -30,7 +30,8 @@ public class UserController {
 
     @GetMapping
     public Iterable<User> getUsers() {
-        return this.userRepository.findAll();
+        return this.userRepository.getUserDetails();
+
     }
 
     @PostMapping

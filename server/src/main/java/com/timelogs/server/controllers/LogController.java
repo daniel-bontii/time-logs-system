@@ -60,6 +60,11 @@ public class LogController {
         }
     }
 
+    @GetMapping
+    public Iterable<Object[]> getUserNameAndLogs() {
+        return this.logRepository.findByUserNameAndLogs();
+    }
+
     @GetMapping("/{userId}")
     public Iterable<Log> getUserLogs(@PathVariable(name = "userId") Long userId) {
         return this.logRepository.findByUserId(userId);
