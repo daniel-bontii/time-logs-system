@@ -1,9 +1,7 @@
 <template>
   <header>
     <p>Welcome[Username]</p>
-    <base-button>
-      <button type="button">Logout</button>
-    </base-button>
+    <base-button> Logout </base-button>
   </header>
 </template>
 

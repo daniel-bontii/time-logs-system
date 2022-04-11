@@ -4,23 +4,23 @@
       <the-header></the-header>
     </base-card>
     <base-card>
-      <base-button>
-        <button type="button">Users</button>
-      </base-button>
-      <base-button>
-        <button type="button">Logs</button>
-      </base-button>
+      <base-button> Users </base-button>
+      <base-button> Logs </base-button>
     </base-card>
-    <base-card></base-card>
+    <base-card>
+      <user-list></user-list>
+    </base-card>
   </section>
 </template>
 
 <script>
 import TheHeader from "./TheHeader.vue";
+import UserList from "./User/UsersList.vue";
 
 export default {
   components: {
     TheHeader,
+    UserList,
   },
 };
 </script>
