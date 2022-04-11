@@ -1,11 +1,17 @@
 <template>
   <section>
-    <the-header></the-header>
-    <div class="nav">
-      <button type="button">Users</button>
-      <button type="button">Logs</button>
-    </div>
-    <div class="content"></div>
+    <base-card>
+      <the-header></the-header>
+    </base-card>
+    <base-card>
+      <base-button>
+        <button type="button">Users</button>
+      </base-button>
+      <base-button>
+        <button type="button">Logs</button>
+      </base-button>
+    </base-card>
+    <base-card></base-card>
   </section>
 </template>
 
