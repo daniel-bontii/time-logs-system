@@ -14,4 +14,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("SELECT new map(u.id as userId, u.name as name, u.email as email, u.department as department) FROM User u WHERE u.role ='user'")
     public Iterable<User> getUserDetails();
 
+    @Query("SELECT new map(u.id as userId, u.name as name, u.email as email, u.department as department, u.role as role) FROM User u")
+    public Iterable<User> getLoginDetails();
+
 }
