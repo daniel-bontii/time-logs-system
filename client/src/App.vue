@@ -1,15 +1,14 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <the-dashboard></the-dashboard>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TheDashboard from './components/TheDashboard.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    TheDashboard
   }
 }
 </script>
@@ -19,8 +18,12 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
+  
+}
+* {
+  /* border: 1px solid gold; */
 }
 </style>
