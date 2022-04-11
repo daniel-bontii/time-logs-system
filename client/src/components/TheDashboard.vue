@@ -8,19 +8,24 @@
       <base-button> Logs </base-button>
     </base-card>
     <base-card>
-      <user-list></user-list>
+      <users-list></users-list>
+    </base-card>
+    <base-card>
+      <logs-list></logs-list>
     </base-card>
   </section>
 </template>
 
 <script>
 import TheHeader from "./TheHeader.vue";
-import UserList from "./User/UsersList.vue";
+import UsersList from "./Users/UsersList.vue";
+import LogsList from "./Logs/LogsList.vue";
 
 export default {
   components: {
     TheHeader,
-    UserList,
+    UsersList,
+    LogsList,
   },
 };
 </script>

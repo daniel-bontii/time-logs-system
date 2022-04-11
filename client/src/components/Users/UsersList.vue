@@ -1,13 +1,13 @@
 <template>
-  <figure>
-    <figcaption>Employees List</figcaption>
-    <table>
-      <thead>
+  <base-card>
+    <base-table>
+      <template #caption>Employees List</template>
+      <template #table-heading>
         <th>Name</th>
         <th>Email</th>
         <th>Department</th>
-      </thead>
-      <tbody>
+      </template>
+      <template #table-body>
         <tr :key="user.userId" v-for="user in users">
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
@@ -15,15 +15,16 @@
           <td><base-button>Edit</base-button></td>
           <td><base-button>Delete</base-button></td>
         </tr>
-      </tbody>
-    </table>
-  </figure>
+      </template>
+    </base-table>
+  </base-card>
 </template>
 
 <script>
-import BaseButton from "../UI/BaseButton.vue";
+import BaseCard from "../UI/BaseCard.vue";
+import BaseTable from "../UI/BaseTable.vue";
 export default {
-  components: { BaseButton },
+  components: { BaseCard, BaseTable },
   data() {
     return {
       users: [
@@ -50,13 +51,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-caption {
-  display: block;
-}
-table {
-  width: 60%;
-  text-align: left;
-}
-</style>
