@@ -29,7 +29,26 @@ export default {
   components: { BaseCard, BaseTable },
   data() {
     return {
-      users: [],
+      users: [
+        {
+          userId: 1,
+          name: "Daniel Bontii",
+          department: "Service Center",
+          email: "daniel.bontii@amalitech.com",
+        },
+        {
+          userId: 2,
+          name: "Rexford Koomsom",
+          department: "Service Center",
+          email: "rexford.koomson@amalitech.com",
+        },
+        {
+          userId: 3,
+          name: "Nicholas Brown",
+          department: "Training Center",
+          email: "nicolas.brown@amalitech.com",
+        },
+      ],
     };
   },
   methods: {
@@ -37,9 +56,8 @@ export default {
       const users = await axios.get(
         "http://localhost:8080/timelogs-api/v1/users"
       );
-      // this.users = users
-      console.log(users.data);
-      this.users = users.data
+
+      this.users = users.data;
     },
   },
   mounted() {

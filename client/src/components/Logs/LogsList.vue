@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import BaseCard from "../UI/BaseCard.vue";
 import BaseTable from "../UI/BaseTable.vue";
 export default {
@@ -56,6 +57,17 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    async getLogs() {
+      const logs = await axios.get(
+        "http://localhost:8080/timelogs-api/v1/logs"
+      );
+      this.logs = logs.data;
+    },
+  },
+  mounted() {
+    this.getLogs();
   },
 };
 </script>
