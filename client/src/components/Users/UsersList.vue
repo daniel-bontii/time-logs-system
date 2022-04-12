@@ -13,7 +13,9 @@
           <td>{{ user.email }}</td>
           <td>{{ user.department }}</td>
           <td><base-button>Edit</base-button></td>
-          <td><base-button>Delete</base-button></td>
+          <td>
+            <base-button @click="deleteUser(user.userId)">Delete</base-button>
+          </td>
         </tr>
       </template>
     </base-table>
@@ -59,7 +61,12 @@ export default {
 
       this.users = users.data;
     },
- 
+    async deleteUser(userId) {
+      await axios.delete(
+        `http://localhost:8080/timelogs-api/v1/users/${userId}`
+      );
+      location.reload();
+    },
   },
   mounted() {
     this.getUsers();

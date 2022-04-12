@@ -78,6 +78,7 @@ export default {
         .catch((error) => {
           this.errorMessage = error.response.data.message;
         });
+      location.reload();
     },
   },
 };
