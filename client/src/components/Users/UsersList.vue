@@ -59,8 +59,12 @@ export default {
 
       this.users = users.data;
     },
+ 
   },
   mounted() {
+    this.getUsers();
+  },
+  updated() {
     this.getUsers();
   },
 };
