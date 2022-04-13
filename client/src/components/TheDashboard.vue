@@ -9,7 +9,7 @@
       <base-button> Logs </base-button>
     </base-card>
 
-    <base-card>
+    <base-card v-if="isAddingEmployee">
       <form @submit.prevent="addorUpdate">
         <div v-if="errorMessage">{{ errorMessage }}</div>
         <input type="hidden" name="userId" value="newUser.id" />
@@ -35,6 +35,7 @@
         <div>
           <input type="reset" value="Reset" />
           <input type="submit" value="Submit" />
+          <input type="button" value="Close" @click="hideForm" />
         </div>
       </form>
     </base-card>
@@ -44,6 +45,7 @@
         :users="users"
         @update-user="updateUser"
         @delete-user="deleteUser"
+        @show-form="showForm"
       ></users-list>
     </base-card>
 
@@ -65,6 +67,8 @@ export default {
   data() {
     return {
       users: [],
+      blankUser: { userId: null, name: "", email: "", department: "" },
+      isAddingEmployee: false,
       errorMessage: null,
       newUser: { userId: null, name: "", email: "", department: "" },
     };
@@ -97,12 +101,13 @@ export default {
             this.errorMessage = err.response.data.message;
             console.error(err.message);
           });
-        this.newUser = { userId: null, name: "", email: "", department: "" };
+        this.newUser = this.blankUser;
         location.reload();
       }
     },
 
     updateUser(userId) {
+      this.isAddingEmployee = true;
       this.newUser = this.users.find((user) => user.userId === userId);
     },
 
@@ -118,6 +123,13 @@ export default {
         `http://localhost:8080/timelogs-api/v1/users/${userId}`
       );
       location.reload();
+    },
+    showForm() {
+      this.isAddingEmployee = true;
+    },
+    hideForm() {
+      this.newUser = this.blankUser;
+      this.isAddingEmployee = false;
     },
   },
   mounted() {

@@ -1,5 +1,6 @@
 <template>
   <base-card>
+    <input type="button" value="Add Employee" @click="$emit('showForm')" />
     <base-table>
       <template #caption>Employees List</template>
       <template #table-heading>
