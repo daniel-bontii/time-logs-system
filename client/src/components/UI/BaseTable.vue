@@ -28,4 +28,5 @@ table {
   width: 60%;
   text-align: left;
 }
+
 </style>

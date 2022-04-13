@@ -63,7 +63,7 @@ public class LogController {
     }
 
     @GetMapping
-    public Iterable<Object[]> getUserNameAndLogs() {
+    public Iterable<Log> getUserNameAndLogs() {
         return this.logRepository.findByUserNameAndLogs();
     }
 

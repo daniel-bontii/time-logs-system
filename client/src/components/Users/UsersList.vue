@@ -14,6 +14,11 @@
           <td>{{ user.email }}</td>
           <td>{{ user.department }}</td>
           <td>
+            <router-link :to="`/users/${user.userId}/logs`">
+              <button type="button">Logs</button>
+            </router-link>
+          </td>
+          <td>
             <base-button @click="$emit('updateUser', user.userId)"
               >Edit</base-button
             >
@@ -36,6 +41,6 @@ import BaseTable from "../UI/BaseTable.vue";
 export default {
   components: { BaseCard, BaseTable },
   props: ["users"],
-  emits: ["updateUser"],
+  emits: ["updateUser", "showForm"],
 };
 </script>

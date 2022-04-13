@@ -1,11 +1,11 @@
 <template>
- <div>
+  <div>
     <base-card>
-    <the-header></the-header>
-  </base-card>
+      <the-header></the-header>
+    </base-card>
 
-  <router-view></router-view>
- </div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
@@ -27,5 +27,15 @@ export default {
   /* text-align: center; */
   color: #2c3e50;
   /* margin-top: 60px; */
+}
+
+.early {
+  background-color: green;
+}
+.late {
+  background-color: red;
+}
+.intime {
+  background-color: gold;
 }
 </style>

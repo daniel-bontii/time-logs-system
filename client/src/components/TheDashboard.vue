@@ -130,7 +130,6 @@ export default {
     },
 
     changeComponent(newComponent) {
-      console.log("changed component to " + newComponent);
       this.activeComponent = newComponent;
     },
   },

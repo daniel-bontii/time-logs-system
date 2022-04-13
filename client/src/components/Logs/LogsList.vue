@@ -73,13 +73,5 @@ export default {
 </script>
 
 <style scoped>
-.early {
-  background-color: green;
-}
-.late {
-  background-color: red;
-}
-.intime {
-  background-color: gold;
-}
+
 </style>
