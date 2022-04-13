@@ -46,18 +46,5 @@
 export default {
   props: ["newUser", "errorMessage"],
   emits: ["hideForm", "saveOrUpdate", "updateDetail"],
-  data() {
-    return {
-      changedUser: {},
-    };
-  },
-  methods: {
-    saveOrUpdate() {
-      console.log(this.changedUser);
-    },
-    changeValue(event) {
-      console.log(event.target.value);
-    },
-  },
 };
 </script>

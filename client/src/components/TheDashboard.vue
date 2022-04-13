@@ -5,6 +5,8 @@
       <base-button @click="changeComponent('logs-list')"> Logs </base-button>
     </base-card>
 
+    <check-in-out></check-in-out>
+
     <base-card v-if="isAddingEmployee">
       <employee-form
         :newUser="newUser"
@@ -37,6 +39,7 @@ import LogsList from "./Logs/LogsList.vue";
 import BaseCard from "./UI/BaseCard.vue";
 import BaseButton from "./UI/BaseButton.vue";
 import EmployeeForm from "./Users/EmployeeForm.vue";
+import CheckInOut from "./Users/CheckInOut.vue";
 import axios from "axios";
 
 export default {
@@ -56,6 +59,7 @@ export default {
     BaseCard,
     BaseButton,
     EmployeeForm,
+    CheckInOut,
   },
 
   methods: {
@@ -105,6 +109,7 @@ export default {
 
     showForm() {
       this.isAddingEmployee = true;
+      this.newUser = this.blankUser;
     },
 
     hideForm() {
@@ -115,6 +120,7 @@ export default {
     changeComponent(newComponent) {
       this.activeComponent = newComponent;
     },
+
     updateDetail(field, event) {
       this.newUser[field] = event.target.value;
       console.log(this.newUser);
