@@ -11,6 +11,7 @@ import com.timelogs.server.repositories.LogRepository;
 import com.timelogs.server.repositories.UserRepository;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/timelogs-api/v1/logs")
+@CrossOrigin(origins = "http://localhost:8081")
 public class LogController {
 
     private final UserRepository userRepository;
@@ -61,7 +63,7 @@ public class LogController {
     }
 
     @GetMapping
-    public Iterable<Object[]> getUserNameAndLogs() {
+    public Iterable<Log> getUserNameAndLogs() {
         return this.logRepository.findByUserNameAndLogs();
     }
 

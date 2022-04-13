@@ -1,17 +1,22 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <base-card>
+      <the-header></the-header>
+    </base-card>
+
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import TheHeader from "./components/TheHeader.vue";
 export default {
-  name: 'App',
+  name: "App",
+
   components: {
-    HelloWorld
-  }
-}
+    TheHeader,
+  },
+};
 </script>
 
 <style>
@@ -19,8 +24,18 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 60px; */
+}
+
+.early {
+  background-color: green;
+}
+.late {
+  background-color: red;
+}
+.intime {
+  background-color: gold;
 }
 </style>
