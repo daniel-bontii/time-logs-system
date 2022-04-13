@@ -3,14 +3,14 @@
 </template>
 
 <script>
-import TheDashboard from './components/TheDashboard.vue'
+import TheDashboard from "./components/TheDashboard.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    TheDashboard
-  }
-}
+    TheDashboard,
+  },
+};
 </script>
 
 <style>
@@ -21,9 +21,5 @@ export default {
   /* text-align: center; */
   color: #2c3e50;
   /* margin-top: 60px; */
-  
-}
-* {
-  /* border: 1px solid gold; */
 }
 </style>

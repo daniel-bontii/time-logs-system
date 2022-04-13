@@ -10,8 +10,9 @@
     </base-card>
 
     <base-card>
-      <form @submit.prevent="submitData">
+      <form @submit.prevent="addorUpdate">
         <div v-if="errorMessage">{{ errorMessage }}</div>
+        <input type="hidden" name="userId" value="newUser.id" />
         <div>
           <label for="name">User Name</label> <br />
           <input type="text" name="name" id="name" v-model="newUser.name" />
@@ -39,7 +40,11 @@
     </base-card>
 
     <base-card>
-      <users-list></users-list>
+      <users-list
+        :users="users"
+        @update-user="updateUser"
+        @delete-user="deleteUser"
+      ></users-list>
     </base-card>
 
     <base-card>
@@ -59,8 +64,9 @@ import axios from "axios";
 export default {
   data() {
     return {
+      users: [],
       errorMessage: null,
-      newUser: { name: "", email: "", department: "" },
+      newUser: { userId: null, name: "", email: "", department: "" },
     };
   },
   components: {
@@ -72,14 +78,50 @@ export default {
   },
 
   methods: {
-    async submitData() {
-      await axios
-        .post("http://localhost:8080/timelogs-api/v1/users", this.newUser)
-        .catch((error) => {
-          this.errorMessage = error.response.data.message;
-        });
+    async addorUpdate() {
+      if (!this.newUser.userId) {
+        await axios
+          .post("http://localhost:8080/timelogs-api/v1/users", this.newUser)
+          .catch((error) => {
+            this.errorMessage = error.response.data.message;
+          });
+        location.reload();
+      } else {
+        console.log(this.newUser);
+        await axios
+          .put(
+            `http://localhost:8080/timelogs-api/v1/users/${this.newUser.userId}`,
+            this.newUser
+          )
+          .catch((err) => {
+            this.errorMessage = err.response.data.message;
+            console.error(err.message);
+          });
+        this.newUser = { userId: null, name: "", email: "", department: "" };
+        location.reload();
+      }
+    },
+
+    updateUser(userId) {
+      this.newUser = this.users.find((user) => user.userId === userId);
+    },
+
+    async getUsers() {
+      const users = await axios.get(
+        "http://localhost:8080/timelogs-api/v1/users"
+      );
+
+      this.users = users.data;
+    },
+    async deleteUser(userId) {
+      await axios.delete(
+        `http://localhost:8080/timelogs-api/v1/users/${userId}`
+      );
       location.reload();
     },
+  },
+  mounted() {
+    this.getUsers();
   },
 };
 </script>
