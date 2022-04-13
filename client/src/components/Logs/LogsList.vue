@@ -15,7 +15,7 @@
           <td>{{ log.date }}</td>
           <td>{{ log.timeIn }}</td>
           <td>{{ log.timeOut }}</td>
-          <td>{{ log.indicator }}</td>
+          <td :class="log.indicator.split(' ').join('')">{{ log.indicator }}</td>
         </tr>
       </template>
     </base-table>
@@ -71,3 +71,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.early {
+  background-color: green;
+}
+.late {
+  background-color: red;
+}
+.intime {
+  background-color: gold;
+}
+</style>
