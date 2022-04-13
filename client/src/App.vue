@@ -1,10 +1,21 @@
 <template>
+ <div>
+    <base-card>
+    <the-header></the-header>
+  </base-card>
+
   <router-view></router-view>
+ </div>
 </template>
 
 <script>
+import TheHeader from "./components/TheHeader.vue";
 export default {
   name: "App",
+
+  components: {
+    TheHeader,
+  },
 };
 </script>
 

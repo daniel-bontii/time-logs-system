@@ -1,12 +1,8 @@
 <template>
   <section>
     <base-card>
-      <the-header></the-header>
-    </base-card>
-
-    <base-card>
-      <base-button> Users </base-button>
-      <base-button> Logs </base-button>
+      <base-button @click="changeComponent('users-list')"> Users </base-button>
+      <base-button @click="changeComponent('logs-list')"> Logs </base-button>
     </base-card>
 
     <base-card v-if="isAddingEmployee">
@@ -40,7 +36,7 @@
       </form>
     </base-card>
 
-    <base-card>
+    <base-card v-if="activeComponent === 'users-list'">
       <users-list
         :users="users"
         @update-user="updateUser"
@@ -49,14 +45,13 @@
       ></users-list>
     </base-card>
 
-    <base-card>
+    <base-card v-if="activeComponent === 'logs-list'">
       <logs-list></logs-list>
     </base-card>
   </section>
 </template>
 
 <script>
-import TheHeader from "./TheHeader.vue";
 import UsersList from "./Users/UsersList.vue";
 import LogsList from "./Logs/LogsList.vue";
 import BaseCard from "./UI/BaseCard.vue";
@@ -66,6 +61,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      activeComponent: "users-list",
       users: [],
       blankUser: { userId: null, name: "", email: "", department: "" },
       isAddingEmployee: false,
@@ -74,7 +70,6 @@ export default {
     };
   },
   components: {
-    TheHeader,
     UsersList,
     LogsList,
     BaseCard,
@@ -124,12 +119,19 @@ export default {
       );
       location.reload();
     },
+
     showForm() {
       this.isAddingEmployee = true;
     },
+
     hideForm() {
       this.newUser = this.blankUser;
       this.isAddingEmployee = false;
+    },
+
+    changeComponent(newComponent) {
+      console.log("changed component to " + newComponent);
+      this.activeComponent = newComponent;
     },
   },
   mounted() {
