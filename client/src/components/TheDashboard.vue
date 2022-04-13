@@ -1,6 +1,10 @@
 <template>
   <section>
     <base-card>
+      <the-header></the-header>
+    </base-card>
+
+    <base-card>
       <base-button @click="changeComponent('users-list')"> Users </base-button>
       <base-button @click="changeComponent('logs-list')"> Logs </base-button>
     </base-card>
@@ -40,6 +44,8 @@ import BaseCard from "./UI/BaseCard.vue";
 import BaseButton from "./UI/BaseButton.vue";
 import EmployeeForm from "./Users/EmployeeForm.vue";
 import CheckInOut from "./Users/CheckInOut.vue";
+
+import TheHeader from "./TheHeader.vue"
 import axios from "axios";
 
 export default {
@@ -60,6 +66,7 @@ export default {
     BaseButton,
     EmployeeForm,
     CheckInOut,
+    TheHeader,
   },
 
   methods: {
