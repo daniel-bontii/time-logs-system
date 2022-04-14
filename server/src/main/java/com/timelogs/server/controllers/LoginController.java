@@ -25,7 +25,7 @@ public class LoginController {
     }
 
     @PostMapping
-    public Iterable<User> validadeLogin(@RequestBody UserDTO userDTO) {
+    public UserDTO validadeLogin(@RequestBody UserDTO userDTO) {
 
         User user = this.userRepository.findByEmail(userDTO.getEmail());
 
@@ -37,7 +37,14 @@ public class LoginController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong password");
         }
 
-        return this.userRepository.getLoginDetails();
+        User foundUser = this.userRepository.findByEmail(userDTO.getEmail());
+
+        UserDTO loggedInUser = new UserDTO();
+        loggedInUser.setName(foundUser.getName());
+        loggedInUser.setRole(foundUser.getRole());
+        loggedInUser.setUserId(foundUser.getUserId());
+
+        return loggedInUser;
 
     }
 

@@ -1,39 +1,25 @@
 <template>
   <section>
     <base-card>
+      <the-header></the-header>
+    </base-card>
+
+    <base-card>
       <base-button @click="changeComponent('users-list')"> Users </base-button>
       <base-button @click="changeComponent('logs-list')"> Logs </base-button>
     </base-card>
 
+    <check-in-out></check-in-out>
+
     <base-card v-if="isAddingEmployee">
-      <form @submit.prevent="addorUpdate">
-        <div v-if="errorMessage">{{ errorMessage }}</div>
-        <input type="hidden" name="userId" value="newUser.id" />
-        <div>
-          <label for="name">User Name</label> <br />
-          <input type="text" name="name" id="name" v-model="newUser.name" />
-        </div>
-
-        <div>
-          <label for="email">Email</label> <br />
-          <input type="text" name="email" id="email" v-model="newUser.email" />
-        </div>
-
-        <div>
-          <label for="department">Department</label> <br />
-          <input
-            type="text"
-            name="department"
-            id="department"
-            v-model="newUser.department"
-          />
-        </div>
-        <div>
-          <input type="reset" value="Reset" />
-          <input type="submit" value="Submit" />
-          <input type="button" value="Close" @click="hideForm" />
-        </div>
-      </form>
+      <employee-form
+        :newUser="newUser"
+        :errorMessage="errorMessage"
+        @hide-form="hideForm"
+        @save-user="addOrUpdate"
+        @save-or-update="addorUpdate"
+        @update-detail="updateDetail"
+      ></employee-form>
     </base-card>
 
     <base-card v-if="activeComponent === 'users-list'">
@@ -56,6 +42,10 @@ import UsersList from "./Users/UsersList.vue";
 import LogsList from "./Logs/LogsList.vue";
 import BaseCard from "./UI/BaseCard.vue";
 import BaseButton from "./UI/BaseButton.vue";
+import EmployeeForm from "./Users/EmployeeForm.vue";
+import CheckInOut from "./Users/CheckInOut.vue";
+
+import TheHeader from "./TheHeader.vue"
 import axios from "axios";
 
 export default {
@@ -74,11 +64,15 @@ export default {
     LogsList,
     BaseCard,
     BaseButton,
+    EmployeeForm,
+    CheckInOut,
+    TheHeader,
   },
 
   methods: {
     async addorUpdate() {
       if (!this.newUser.userId) {
+        console.log("tried create");
         await axios
           .post("http://localhost:8080/timelogs-api/v1/users", this.newUser)
           .catch((error) => {
@@ -86,7 +80,7 @@ export default {
           });
         location.reload();
       } else {
-        console.log(this.newUser);
+        console.log("tried update");
         await axios
           .put(
             `http://localhost:8080/timelogs-api/v1/users/${this.newUser.userId}`,
@@ -122,6 +116,7 @@ export default {
 
     showForm() {
       this.isAddingEmployee = true;
+      this.newUser = this.blankUser;
     },
 
     hideForm() {
@@ -131,6 +126,11 @@ export default {
 
     changeComponent(newComponent) {
       this.activeComponent = newComponent;
+    },
+
+    updateDetail(field, event) {
+      this.newUser[field] = event.target.value;
+      console.log(this.newUser);
     },
   },
   mounted() {
