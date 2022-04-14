@@ -25,6 +25,11 @@ const router = createRouter({
       path: "/",
       component: TheHomePage,
     },
+    {
+      path: "/users/:userId/dashboard",
+      component: TheDashboard,
+      props: true,
+    },
   ],
 });
 

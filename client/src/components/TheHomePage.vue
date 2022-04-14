@@ -1,6 +1,7 @@
 <template>
   <base-card>
     <form @submit.prevent="login">
+      <p v-if="errorMessage">{{ errorMessage }}</p>
       <div>
         <label for="email">Email</label>
         <input
@@ -31,6 +32,8 @@ import axios from "axios";
 export default {
   data() {
     return {
+      user: null,
+      errorMessage: null,
       loginDetails: { email: "", password: "" },
     };
   },
@@ -39,13 +42,15 @@ export default {
     async login() {
       const res = await axios
         .post("http://localhost:8080/timelogs-api/v1/login", this.loginDetails)
-        .catch(function (error) {
-          if (error.response) {
-            console.log(error.response.status.message);
-          }
+        .catch((error) => {
+          this.errorMessage = error.response.data.message;
         });
 
-      console.log(res.data);
+      this.user = res.data;
+
+      if (this.user) {
+        this.$router.push(`/users/${this.user.userId}/dashboard`);
+      }
     },
   },
 };
