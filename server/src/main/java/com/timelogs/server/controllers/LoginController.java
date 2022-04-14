@@ -1,5 +1,7 @@
 package com.timelogs.server.controllers;
 
+import java.util.Optional;
+
 import com.timelogs.server.entities.User;
 import com.timelogs.server.entities.UserDTO;
 import com.timelogs.server.repositories.UserRepository;
@@ -7,6 +9,8 @@ import com.timelogs.server.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,12 +44,28 @@ public class LoginController {
         User foundUser = this.userRepository.findByEmail(userDTO.getEmail());
 
         UserDTO loggedInUser = new UserDTO();
+        loggedInUser.setUserId(foundUser.getUserId());
+
+        return loggedInUser;
+
+    }
+
+    @GetMapping("/{userId}")
+    public UserDTO getLoggedInUser(@PathVariable(name = "userId") Long userId) {
+        Optional<User> userOptional = this.userRepository.findById(userId);
+
+        if (!userOptional.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not a logged In user");
+        }
+
+        User foundUser = userOptional.get();
+
+        UserDTO loggedInUser = new UserDTO();
         loggedInUser.setName(foundUser.getName());
         loggedInUser.setRole(foundUser.getRole());
         loggedInUser.setUserId(foundUser.getUserId());
 
         return loggedInUser;
-
     }
 
 }

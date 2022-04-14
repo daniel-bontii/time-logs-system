@@ -1,7 +1,7 @@
 <template>
   <section>
     <base-card>
-      <the-header></the-header>
+      <the-header :loggedInUser="loggedInUser ? loggedInUser : ''"></the-header>
     </base-card>
 
     <base-card>
@@ -9,7 +9,7 @@
       <base-button @click="changeComponent('logs-list')"> Logs </base-button>
     </base-card>
 
-    <check-in-out></check-in-out>
+    <check-in-out v-if="role === 'user'"></check-in-out>
 
     <base-card v-if="isAddingEmployee">
       <employee-form
@@ -22,7 +22,7 @@
       ></employee-form>
     </base-card>
 
-    <base-card v-if="activeComponent === 'users-list'">
+    <base-card v-if="role === 'admin' && activeComponent === 'users-list'">
       <users-list
         :users="users"
         @update-user="updateUser"
@@ -31,9 +31,11 @@
       ></users-list>
     </base-card>
 
-    <base-card v-if="activeComponent === 'logs-list'">
+    <base-card v-if="role === 'admin' && activeComponent === 'logs-list'">
       <logs-list></logs-list>
     </base-card>
+
+    <user-logs v-if="role === 'user'"></user-logs>
   </section>
 </template>
 
@@ -45,12 +47,15 @@ import BaseButton from "./UI/BaseButton.vue";
 import EmployeeForm from "./Users/EmployeeForm.vue";
 import CheckInOut from "./Users/CheckInOut.vue";
 
-import TheHeader from "./TheHeader.vue"
+import TheHeader from "./TheHeader.vue";
 import axios from "axios";
+import UserLogs from "./Logs/UserLogs.vue";
 
 export default {
   data() {
     return {
+      loggedInUser: null,
+      role: null,
       activeComponent: "users-list",
       users: [],
       blankUser: { userId: null, name: "", email: "", department: "" },
@@ -67,12 +72,12 @@ export default {
     EmployeeForm,
     CheckInOut,
     TheHeader,
+    UserLogs,
   },
 
   methods: {
     async addorUpdate() {
       if (!this.newUser.userId) {
-        console.log("tried create");
         await axios
           .post("http://localhost:8080/timelogs-api/v1/users", this.newUser)
           .catch((error) => {
@@ -80,7 +85,6 @@ export default {
           });
         location.reload();
       } else {
-        console.log("tried update");
         await axios
           .put(
             `http://localhost:8080/timelogs-api/v1/users/${this.newUser.userId}`,
@@ -88,7 +92,6 @@ export default {
           )
           .catch((err) => {
             this.errorMessage = err.response.data.message;
-            console.error(err.message);
           });
         this.newUser = this.blankUser;
         location.reload();
@@ -107,6 +110,7 @@ export default {
 
       this.users = users.data;
     },
+
     async deleteUser(userId) {
       await axios.delete(
         `http://localhost:8080/timelogs-api/v1/users/${userId}`
@@ -130,11 +134,25 @@ export default {
 
     updateDetail(field, event) {
       this.newUser[field] = event.target.value;
-      console.log(this.newUser);
     },
   },
-  mounted() {
+  async mounted() {
+    await axios
+      .get(
+        `http://localhost:8080/timelogs-api/v1/login/${this.$route.params.userId}`
+      )
+      .then((res) => {
+        this.loggedInUser = res.data;
+        this.role = res.data.role;
+      })
+      .catch((error) => {
+        if (error.response) {
+          this.$router.push("/");
+        }
+      });
+
     this.getUsers();
+    console.log(this.loggedInUser);
   },
 };
 </script>
