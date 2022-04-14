@@ -1,14 +1,17 @@
 <template>
   <section>
     <base-card class="ins-outs">
-      <button type="button">Check in</button>
+      <button type="button" @click="$emit('checkIn')">Check in</button>
     </base-card>
     <base-card class="ins-outs">
-      <button type="button">Check Out</button>
+      <button type="button" @click="$emit('checkOut')">Check Out</button>
     </base-card>
   </section>
 </template>
 
-<style scoped>
-    
-</style>
+<script>
+export default {
+  // emits: ["checkIn", "checkOut"],
+};
+</script>
+<style scoped></style>
