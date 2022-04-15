@@ -1,7 +1,9 @@
 <template>
-  <header>
-    <p>Welcome {{ loggedInUser.name }}[{{ loggedInUser.role }}]</p>
-    <base-button> Logout </base-button>
+  <header class="container-fluid">
+    <p class="welcome">
+      Welcome {{ loggedInUser.name }}[{{ loggedInUser.role }}]
+    </p>
+    <button type="button" class="btn btn-danger">Logout</button>
   </header>
 </template>
 
@@ -15,5 +17,15 @@ export default {
 header {
   display: flex;
   justify-content: flex-end;
+  height: 10vh;
+  align-items: center;
+  background-color: #17223b;
+  color: #fff;
+  align-self: center;
+  margin-bottom: 2.5rem;
+}
+.welcome {
+  justify-self: center;
+  margin-bottom: 0;
 }
 </style>

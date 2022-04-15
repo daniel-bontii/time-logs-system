@@ -1,5 +1,5 @@
 <template>
-  <base-card>
+  <base-card class="container">
     <router-link to="/dashboard">
       <base-button>Dashboard</base-button>
     </router-link>

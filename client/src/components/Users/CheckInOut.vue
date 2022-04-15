@@ -1,9 +1,8 @@
 <template>
   <section>
-    <base-card class="ins-outs">
+    <base-card class="ins-outs container">
       <button type="button" @click="$emit('checkIn')">Check in</button>
-    </base-card>
-    <base-card class="ins-outs">
+
       <button type="button" @click="$emit('checkOut')">Check Out</button>
     </base-card>
   </section>

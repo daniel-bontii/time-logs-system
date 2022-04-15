@@ -6,8 +6,8 @@
 
 <style scoped>
 div {
-  background-color: antiquewhite;
-  margin: 1%;
+  background-color: rgba(250, 235, 215, 0.3);
+  /* margin: 1%; */
 }
 .ins-outs {
   display: inline-flex;
@@ -33,5 +33,13 @@ section {
   height: 100vh;
   align-items: center;
   justify-content: center;
+}
+
+div.admin-nav {
+  height: 10vh;
+  background-color: rgb(255, 103, 104);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>
