@@ -20,6 +20,7 @@ const router = createRouter({
     {
       path: "/users/:userId/logs",
       component: UserLogs,
+      props: { role: "admin" },
     },
     {
       path: "/",

@@ -1,6 +1,6 @@
 <template>
   <base-card class="container">
-    <router-link to="/dashboard">
+    <router-link v-if="role === 'admin'" to="/dashboard">
       <base-button>Dashboard</base-button>
     </router-link>
     <base-table>
@@ -9,14 +9,17 @@
         <th>Date</th>
         <th>Time In</th>
         <th>Time Out</th>
-        <th>Indicator</th>
+        <th v-if="role === 'admin'">Indicator</th>
       </template>
       <template #table-body>
         <tr :key="log.userId" v-for="log in logs">
           <td>{{ log.date }}</td>
           <td>{{ log.timeIn }}</td>
           <td>{{ log.timeOut }}</td>
-          <td :class="log.indicator.split(' ').join('')">
+          <td
+            v-if="role === 'admin'"
+            :class="log.indicator.split(' ').join('')"
+          >
             {{ log.indicator }}
           </td>
         </tr>
@@ -29,6 +32,7 @@
 import axios from "axios";
 import BaseButton from "../UI/BaseButton.vue";
 export default {
+  props: ["role"],
   components: { BaseButton },
   data() {
     return {

@@ -16,7 +16,9 @@
 
           <td>
             <span
-              ><router-link :to="`/users/${user.userId}/logs`">
+              ><router-link
+                :to=" `/users/${user.userId}/logs`"
+              >
                 <button type="button">Logs</button>
               </router-link></span
             >

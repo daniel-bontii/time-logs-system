@@ -74,7 +74,7 @@
       <logs-list></logs-list>
     </base-card>
 
-    <user-logs v-if="role === 'user'"></user-logs>
+    <user-logs :role="role" v-if="role === 'user'"></user-logs>
   </section>
 </template>
 

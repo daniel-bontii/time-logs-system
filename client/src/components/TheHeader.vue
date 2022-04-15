@@ -1,9 +1,11 @@
 <template>
   <header class="container-fluid">
-    <p class="welcome">
-      Welcome {{ loggedInUser.name }}[{{ loggedInUser.role }}]
-    </p>
-    <button type="button" class="btn btn-danger">Logout</button>
+    <div class="container">
+      <p class="welcome">
+        Welcome {{ loggedInUser.name }}[{{ loggedInUser.role }}]
+      </p>
+      <button type="button" class="btn btn-danger">Logout</button>
+    </div>
   </header>
 </template>
 
@@ -15,15 +17,23 @@ export default {
 
 <style scoped>
 header {
-  display: flex;
-  justify-content: flex-end;
   height: 10vh;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: #17223b;
-  color: #fff;
-  align-self: center;
   margin-bottom: 2.5rem;
 }
+
+.container {
+  align-self: center;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .welcome {
   justify-self: center;
   margin-bottom: 0;

@@ -22,7 +22,7 @@ export default {};
 
 <style scoped>
 figure {
-  height: 60vh;
+  height: 54vh;
   overflow-y: scroll;
 }
 figcaption {

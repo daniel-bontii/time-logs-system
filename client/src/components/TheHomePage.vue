@@ -64,9 +64,6 @@ export default {
 </script>
 
 <style scoped>
-base-card {
-  background-color: aqua;
-}
 .login-form {
   display: flex;
   flex-direction: column;
@@ -74,7 +71,7 @@ base-card {
   justify-content: center;
   height: 50vh;
   width: 25%;
-  background-color: hsla(0, 0%, 100%, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 

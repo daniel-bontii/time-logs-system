@@ -7,16 +7,16 @@
 <style scoped>
 div {
   background-color: rgba(250, 235, 215, 0.3);
-  /* margin: 1%; */
 }
 .ins-outs {
-  display: inline-flex;
-  width: 30%;
-  background-color: blueviolet;
+  display: flex;
+  width: 100%;
+  background-color: rgba(23, 34, 59, 0.1);
   height: 30%;
   align-items: center;
   justify-content: center;
-  margin-left: 15%;
+  height: 20vh;
+  margin-bottom: 2%;
 }
 section {
   display: flex;
@@ -35,7 +35,7 @@ section {
   justify-content: center;
 }
 
-div.admin-nav {
+.admin-nav {
   height: 10vh;
   background-color: rgb(255, 103, 104);
   display: flex;
