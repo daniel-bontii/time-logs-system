@@ -9,7 +9,11 @@
       <base-button @click="changeComponent('logs-list')"> Logs </base-button>
     </base-card>
 
-    <check-in-out v-if="role === 'user'"></check-in-out>
+    <check-in-out
+      v-if="role === 'user'"
+      @check-in="checkUserIn"
+      @check-out="checkUserOut"
+    ></check-in-out>
 
     <base-card v-if="isAddingEmployee">
       <employee-form
@@ -135,7 +139,23 @@ export default {
     updateDetail(field, event) {
       this.newUser[field] = event.target.value;
     },
+
+    async checkUserIn() {
+      await axios.post(
+        `http://localhost:8080/timelogs-api/v1/logs/${this.loggedInUser.userId}/checkin`,
+        { date: new Date().toISOString() }
+      );
+      location.reload();
+    },
+    async checkUserOut() {
+      await axios.put(
+        `http://localhost:8080/timelogs-api/v1/logs/${this.loggedInUser.userId}/checkout`,
+        { date: new Date().toISOString() }
+      );
+      location.reload();
+    },
   },
+
   async mounted() {
     await axios
       .get(
@@ -152,7 +172,6 @@ export default {
       });
 
     this.getUsers();
-    console.log(this.loggedInUser);
   },
 };
 </script>
