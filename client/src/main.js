@@ -6,7 +6,9 @@ import BaseCard from "./components/UI/BaseCard.vue";
 import BaseTable from "./components/UI/BaseTable.vue";
 
 const app = createApp(App);
+
 app.use(router);
+
 app.component("base-button", BaseButton);
 app.component("base-card", BaseCard);
 app.component("base-table", BaseTable);

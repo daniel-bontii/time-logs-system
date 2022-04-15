@@ -4,7 +4,7 @@
       <the-header :loggedInUser="loggedInUser ? loggedInUser : ''"></the-header>
     </base-card>
 
-    <base-card>
+    <base-card v-if="role === 'admin'">
       <base-button @click="changeComponent('users-list')"> Users </base-button>
       <base-button @click="changeComponent('logs-list')"> Logs </base-button>
     </base-card>

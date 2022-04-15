@@ -1,27 +1,33 @@
 <template>
-  <base-card>
-    <form @submit.prevent="login">
-      <p v-if="errorMessage">{{ errorMessage }}</p>
-      <div>
-        <label for="email">Email</label>
+  <base-card class="login jumbotron">
+    <form class="login-form">
+      <div v-if="errorMessage" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+      </div>
+      <div class="form-group">
+        <label for="userEmail">Email</label>
         <input
-          type="text"
-          name="email"
-          id="email"
+          type="email"
+          class="form-control"
+          id="userEmail"
+          aria-describedby="email"
           v-model="loginDetails.email"
         />
       </div>
-      <div>
-        <label for="password">Password</label>
+      <div class="form-group">
+        <label for="userPassword">Password</label>
         <input
           type="password"
-          name="password"
-          id="password"
+          class="form-control"
+          id="userPassword"
+          aria-describedby="password"
           v-model="loginDetails.password"
         />
       </div>
       <div>
-        <input type="submit" value="Login" />
+        <button type="button" class="btn btn-secondary" @click="login">
+          Login
+        </button>
       </div>
     </form>
   </base-card>
@@ -29,6 +35,7 @@
 
 <script>
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -55,3 +62,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+base-card {
+  background-color: aqua;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  width: 25%;
+  background-color: hsla(0, 0%, 100%, 0.7);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+label {
+  display: block;
+}
+</style>
