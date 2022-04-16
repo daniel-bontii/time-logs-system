@@ -16,22 +16,29 @@
 
           <td>
             <span
-              ><router-link
-                :to=" `/users/${user.userId}/logs`"
-              >
-                <button type="button">Logs</button>
-              </router-link></span
-            >
-            <span
-              ><base-button @click="$emit('updateUser', user.userId)"
-                >Edit</base-button
-              ></span
-            >
-            <span
-              ><base-button @click="$emit('deleteUser', user.userId)"
-                >Delete</base-button
-              ></span
-            >
+              ><router-link :to="`/users/${user.userId}/logs`">
+                <img
+                  src="../../assets/list-svgrepo-com.svg"
+                  width="25"
+                  alt="list svg"
+                /> </router-link
+            ></span>
+            <span>
+              <img
+                src="../../assets/user-edit-svgrepo-com.svg"
+                width="30"
+                alt="edit user svg"
+                @click="$emit('updateUser', user.userId)"
+              />
+            </span>
+            <span>
+              <img
+                src="../../assets/user-delete-svgrepo-com.svg"
+                width="30"
+                alt="delete user svg"
+                @click="$emit('deleteUser', user.userId)"
+              />
+            </span>
           </td>
         </tr>
       </template>
@@ -49,3 +56,9 @@ export default {
   emits: ["updateUser", "showForm"],
 };
 </script>
+
+<style scoped>
+span {
+  margin: 2%;
+}
+</style>

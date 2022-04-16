@@ -6,7 +6,7 @@
 
 <style scoped>
 div {
-  background-color: rgba(250, 235, 215, 0.3);
+  background-color: rgba(255, 253, 208, 0.1);
 }
 .ins-outs {
   display: flex;
@@ -41,5 +41,6 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 0.3%;
 }
 </style>

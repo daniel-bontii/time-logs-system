@@ -55,26 +55,21 @@
       ></employee-form>
     </base-card>
 
-    <base-card
+    <users-list
       v-if="role === 'admin' && activeComponent === 'users-list'"
-      class="container"
-    >
-      <users-list
-        :users="users"
-        @update-user="updateUser"
-        @delete-user="deleteUser"
-        @show-form="showForm"
-      ></users-list>
-    </base-card>
+      class="container users"
+      :users="users"
+      @update-user="updateUser"
+      @delete-user="deleteUser"
+      @show-form="showForm"
+    ></users-list>
 
-    <base-card
+    <logs-list
       v-if="role === 'admin' && activeComponent === 'logs-list'"
-      class="container"
-    >
-      <logs-list></logs-list>
-    </base-card>
+      class="container logs"
+    ></logs-list>
 
-    <user-logs :role="role" v-if="role === 'user'"></user-logs>
+    <user-logs class="logs" :role="role" v-if="role === 'user'"></user-logs>
   </section>
 </template>
 
@@ -212,5 +207,9 @@ export default {
 <style scoped>
 .new-employee {
   box-shadow: 2px 2px 5px 5px rgba(177, 174, 174, 0.25);
+}
+.logs,
+.users {
+  border: 1px solid rgba(255, 103, 103, 0.2);
 }
 </style>

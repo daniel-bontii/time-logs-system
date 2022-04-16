@@ -54,3 +54,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.container {
+  background-color: rgba(255, 253, 208, 0.1);
+  border: 1px solid rgba(255, 103, 103, 0.2);
+}
+</style>

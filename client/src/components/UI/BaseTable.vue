@@ -4,7 +4,7 @@
       <slot name="caption"></slot>
     </figcaption>
     <table class="table">
-      <thead>
+      <thead class="thead-light">
         <tr>
           <slot name="table-heading"></slot>
         </tr>
@@ -26,13 +26,7 @@ figure {
   overflow-y: scroll;
 }
 figcaption {
-  /* display: block; */
-  /* display: flex; */
-  /* align-items: center; */
-  /* align-self: center; */
   margin: 0 auto;
-  /* justify-content: center; */
-  /* background-color: rgb(23, 34, 59); */
   width: 40%;
   text-align: center;
   color: rgb(23, 34, 59);
