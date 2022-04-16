@@ -15,7 +15,9 @@
           <td>{{ log.date }}</td>
           <td>{{ log.timeIn }}</td>
           <td>{{ log.timeOut }}</td>
-          <td :class="log.indicator.split(' ').join('')">{{ log.indicator }}</td>
+          <td :class="log.indicator.split(' ').join('')">
+            {{ log.indicator }}
+          </td>
         </tr>
       </template>
     </base-table>
@@ -72,6 +74,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

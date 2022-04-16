@@ -4,9 +4,38 @@
       <the-header :loggedInUser="loggedInUser ? loggedInUser : ''"></the-header>
     </base-card>
 
-    <base-card>
-      <base-button @click="changeComponent('users-list')"> Users </base-button>
-      <base-button @click="changeComponent('logs-list')"> Logs </base-button>
+    <base-card v-if="role === 'admin'" class="admin-nav container">
+      <div>
+        <button
+          type="button"
+          @click="changeComponent('users-list')"
+          :class="
+            activeComponent === 'users-list'
+              ? 'btn btn-light'
+              : 'btn btn-outline-light'
+          "
+        >
+          Employees
+        </button>
+        <button
+          type="button"
+          @click="changeComponent('logs-list')"
+          :class="
+            activeComponent === 'logs-list'
+              ? 'btn btn-light'
+              : 'btn btn-outline-light'
+          "
+        >
+          Logs
+        </button>
+      </div>
+      <button
+        type="button"
+        class="btn btn-light new-employee"
+        @click="showForm"
+      >
+        Add Employee
+      </button>
     </base-card>
 
     <check-in-out
@@ -26,20 +55,21 @@
       ></employee-form>
     </base-card>
 
-    <base-card v-if="role === 'admin' && activeComponent === 'users-list'">
-      <users-list
-        :users="users"
-        @update-user="updateUser"
-        @delete-user="deleteUser"
-        @show-form="showForm"
-      ></users-list>
-    </base-card>
+    <users-list
+      v-if="role === 'admin' && activeComponent === 'users-list'"
+      class="container users"
+      :users="users"
+      @update-user="updateUser"
+      @delete-user="deleteUser"
+      @show-form="showForm"
+    ></users-list>
 
-    <base-card v-if="role === 'admin' && activeComponent === 'logs-list'">
-      <logs-list></logs-list>
-    </base-card>
+    <logs-list
+      v-if="role === 'admin' && activeComponent === 'logs-list'"
+      class="container logs"
+    ></logs-list>
 
-    <user-logs v-if="role === 'user'"></user-logs>
+    <user-logs class="logs" :role="role" v-if="role === 'user'"></user-logs>
   </section>
 </template>
 
@@ -47,7 +77,6 @@
 import UsersList from "./Users/UsersList.vue";
 import LogsList from "./Logs/LogsList.vue";
 import BaseCard from "./UI/BaseCard.vue";
-import BaseButton from "./UI/BaseButton.vue";
 import EmployeeForm from "./Users/EmployeeForm.vue";
 import CheckInOut from "./Users/CheckInOut.vue";
 
@@ -72,7 +101,6 @@ export default {
     UsersList,
     LogsList,
     BaseCard,
-    BaseButton,
     EmployeeForm,
     CheckInOut,
     TheHeader,
@@ -176,4 +204,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.new-employee {
+  box-shadow: 2px 2px 5px 5px rgba(177, 174, 174, 0.25);
+}
+.logs,
+.users {
+  border: 1px solid rgba(255, 103, 103, 0.2);
+}
+</style>
