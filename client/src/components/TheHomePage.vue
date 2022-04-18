@@ -82,8 +82,12 @@ export default {
 
         if (this.user) {
           this.message = "Login successful";
+          localStorage.setItem("login", "Logged in");
           setTimeout(() => {
-            this.$router.push(`/users/${this.user.userId}/dashboard`);
+            this.$router.push({
+              name: "dashboard",
+              params: { userId: this.user.userId, isAuthenticated: true },
+            });
           }, 500);
         }
       }

@@ -49,7 +49,6 @@ export default {
         `http://localhost:8080/timelogs-api/v1/logs/${this.$route.params.userId}`
       );
       this.logs = logs.data;
-      console.log(this.logs.length);
     },
   },
 

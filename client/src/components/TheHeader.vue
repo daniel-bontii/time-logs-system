@@ -2,7 +2,7 @@
   <header class="container-fluid">
     <div class="container">
       <p class="welcome">Welcome {{ loggedInUser.name }}</p>
-      <button type="button" class="btn btn-danger">Logout</button>
+      <button type="button" class="btn btn-danger" @click="$emit('logOut')">Logout</button>
     </div>
   </header>
 </template>

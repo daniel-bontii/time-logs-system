@@ -8,7 +8,12 @@ import TheHomePage from "./components/TheHomePage.vue";
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: "/dashboard", component: TheDashboard },
+    {
+      path: "/dashboard",
+      component: TheDashboard,
+
+      props: true,
+    },
     {
       path: "/users",
       component: UsersList,
@@ -29,7 +34,7 @@ const router = createRouter({
     {
       path: "/users/:userId/dashboard",
       component: TheDashboard,
-      props: true,
+      name: "dashboard",
     },
   ],
 });

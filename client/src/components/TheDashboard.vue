@@ -1,7 +1,10 @@
 <template>
   <section>
     <base-card>
-      <the-header :loggedInUser="loggedInUser ? loggedInUser : ''"></the-header>
+      <the-header
+        :loggedInUser="loggedInUser ? loggedInUser : ''"
+        @logOut="logUserOut"
+      ></the-header>
     </base-card>
 
     <base-card v-if="role === 'admin'" class="admin-nav container">
@@ -122,6 +125,7 @@ import axios from "axios";
 import UserLogs from "./Logs/UserLogs.vue";
 
 export default {
+  props: ["isAuthenticated"],
   data() {
     return {
       loggedInUser: null,
@@ -138,6 +142,7 @@ export default {
       deleteMessage: null,
       isDeletingUser: false,
       idToDelte: null,
+      isLoggedOut: false,
     };
   },
   components: {
@@ -286,9 +291,16 @@ export default {
           this.catchError(error);
         });
     },
+    logUserOut() {
+      localStorage.removeItem("login");
+      location.reload();
+    },
   },
 
   async mounted() {
+    if (!localStorage.getItem("login")) {
+      this.$router.push("/");
+    }
     await axios
       .get(
         `http://localhost:8080/timelogs-api/v1/login/${this.$route.params.userId}`
@@ -302,7 +314,6 @@ export default {
           this.$router.push("/");
         }
       });
-
     this.getUsers();
   },
 };
