@@ -12,7 +12,10 @@
         <th v-if="role === 'admin'">Indicator</th>
       </template>
       <template #table-body>
-        <tr :key="log.userId" v-for="log in logs">
+        <tr v-if="logs.length < 1">
+          <td>No logs added yet</td>
+        </tr>
+        <tr v-else :key="log.userId" v-for="log in logs">
           <td>{{ log.date }}</td>
           <td>{{ log.timeIn }}</td>
           <td>{{ log.timeOut }}</td>
@@ -46,6 +49,7 @@ export default {
         `http://localhost:8080/timelogs-api/v1/logs/${this.$route.params.userId}`
       );
       this.logs = logs.data;
+      console.log(this.logs.length);
     },
   },
 

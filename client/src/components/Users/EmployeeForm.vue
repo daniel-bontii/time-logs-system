@@ -1,6 +1,16 @@
 <template>
   <dialog open="true" class="jumbotron">
-    <div v-if="errorMessage">{{ errorMessage }}</div>
+    <div
+      v-if="message"
+      :class="
+        message.includes('successful')
+          ? 'alert alert-success'
+          : 'alert alert-danger'
+      "
+      role="alert"
+    >
+      {{ message }}
+    </div>
     <input type="hidden" name="userId" :value="newUser.userId" />
     <div class="form-group">
       <label for="userName">Name</label>
@@ -54,14 +64,13 @@
 
 <script>
 export default {
-  props: ["newUser", "errorMessage"],
+  props: ["newUser", "message"],
   emits: ["hideForm", "saveOrUpdate", "updateDetail"],
 };
 </script>
 
 <style scoped>
 dialog {
-  /* position: absolute; */
   top: 8vh;
   left: 30%;
   margin: 0;

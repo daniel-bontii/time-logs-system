@@ -62,7 +62,7 @@
     <base-card v-if="isAddingEmployee">
       <employee-form
         :newUser="newUser"
-        :errorMessage="errorMessage"
+        :message="message"
         @hide-form="hideForm"
         @save-user="addOrUpdate"
         @save-or-update="addorUpdate"
@@ -70,12 +70,34 @@
       ></employee-form>
     </base-card>
 
+    <dialog open="true" class="jumbotron deleteUserModal" v-if="isDeletingUser">
+      <div v-if="deleteMessage" class="alert alert-success" role="alert">
+        {{ deleteMessage }}
+      </div>
+      <div>Delete User?</div>
+      <div class="form-group">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          @click="hideDeleteDialogue"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          @click="deleteUser(idToDelte)"
+        >
+          Delete
+        </button>
+      </div>
+    </dialog>
     <users-list
       v-if="role === 'admin' && activeComponent === 'users-list'"
       class="container users"
       :users="users"
       @update-user="updateUser"
-      @delete-user="deleteUser"
+      @delete-user="showDeleteDialog"
       @show-form="showForm"
     ></users-list>
 
@@ -108,10 +130,14 @@ export default {
       users: [],
       blankUser: { userId: null, name: "", email: "", department: "" },
       isAddingEmployee: false,
-      errorMessage: null,
+      message: null,
       newUser: { userId: null, name: "", email: "", department: "" },
       toastMessage: null,
       showToast: false,
+      canProceed: false,
+      deleteMessage: null,
+      isDeletingUser: false,
+      idToDelte: null,
     };
   },
   components: {
@@ -125,25 +151,50 @@ export default {
   },
 
   methods: {
-    async addorUpdate() {
-      if (!this.newUser.userId) {
-        await axios
-          .post("http://localhost:8080/timelogs-api/v1/users", this.newUser)
-          .catch((error) => {
-            this.errorMessage = error.response.data.message;
-          });
-        location.reload();
+    checkFields(user) {
+      let regex = /[a-z0-9]+@[a-z]+.[a-z]{2,3}/;
+
+      if (!regex.test(user.email)) {
+        this.message = "Please use valid email";
+        this.canProceed = false;
+      } else if (!user.name || !user.email || !user.department) {
+        this.message = "Please fill all fields";
+        this.canProceed = false;
       } else {
-        await axios
-          .put(
-            `http://localhost:8080/timelogs-api/v1/users/${this.newUser.userId}`,
-            this.newUser
-          )
-          .catch((err) => {
-            this.errorMessage = err.response.data.message;
-          });
-        this.newUser = this.blankUser;
-        location.reload();
+        this.canProceed = true;
+      }
+    },
+    async addorUpdate() {
+      this.checkFields(this.newUser);
+
+      if (this.canProceed) {
+        if (!this.newUser.userId) {
+          await axios
+            .post("http://localhost:8080/timelogs-api/v1/users", this.newUser)
+            .then(() => {
+              this.message = "Add successful";
+              setTimeout(() => location.reload(), 1000);
+            })
+            .catch((error) => {
+              if (error.response) {
+                this.message = error.response.data.message;
+              }
+            });
+        } else {
+          await axios
+            .put(
+              `http://localhost:8080/timelogs-api/v1/users/${this.newUser.userId}`,
+              this.newUser
+            )
+            .then(() => {
+              this.message = "Update successful";
+              setTimeout(() => location.reload(), 1000);
+            })
+            .catch((err) => {
+              this.message = err.response.data.message;
+            });
+          this.newUser = this.blankUser;
+        }
       }
     },
 
@@ -160,11 +211,21 @@ export default {
       this.users = users.data;
     },
 
+    showDeleteDialog(userId) {
+      this.idToDelte = userId;
+      this.isDeletingUser = true;
+    },
+    hideDeleteDialogue() {
+      this.isDeletingUser = false;
+    },
+
     async deleteUser(userId) {
-      await axios.delete(
-        `http://localhost:8080/timelogs-api/v1/users/${userId}`
-      );
-      location.reload();
+      await axios
+        .delete(`http://localhost:8080/timelogs-api/v1/users/${userId}`)
+        .then(() => {
+          this.deleteMessage = "Deleted";
+          setTimeout(() => location.reload(), 1000);
+        });
     },
 
     showForm() {
@@ -188,9 +249,10 @@ export default {
     displayToast(message) {
       this.toastMessage = message;
       this.showToast = true;
-      setTimeout(() => location.reload(), 2000);
+      setTimeout(() => location.reload(), 1000);
       this.dismissToast();
     },
+
     catchError(err) {
       if (err.response) {
         this.displayToast(err.response.data.message);
@@ -210,6 +272,7 @@ export default {
           this.catchError(error);
         });
     },
+
     async checkUserOut() {
       await axios
         .put(

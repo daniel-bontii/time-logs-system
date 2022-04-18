@@ -9,7 +9,10 @@
         <th></th>
       </template>
       <template #table-body>
-        <tr :key="user.userId" v-for="user in users">
+        <tr v-if="users.length < 1">
+          <td>No users added yet</td>
+        </tr>
+        <tr v-else :key="user.userId" v-for="user in users">
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.department }}</td>

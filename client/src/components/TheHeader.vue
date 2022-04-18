@@ -1,9 +1,7 @@
 <template>
   <header class="container-fluid">
     <div class="container">
-      <p class="welcome">
-        Welcome {{ loggedInUser.name }}[{{ loggedInUser.role }}]
-      </p>
+      <p class="welcome">Welcome {{ loggedInUser.name }}</p>
       <button type="button" class="btn btn-danger">Logout</button>
     </div>
   </header>
@@ -37,5 +35,6 @@ header {
 .welcome {
   justify-self: center;
   margin-bottom: 0;
+  margin-right: 1%;
 }
 </style>
