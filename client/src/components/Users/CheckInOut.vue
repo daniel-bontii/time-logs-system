@@ -1,11 +1,20 @@
 <template>
   <section>
     <base-card class="ins-outs container">
-      <button type="button" class="btn btn-success" @click="$emit('checkIn')">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        @click="$emit('checkIn')"
+      >
         Check In
       </button>
       <div class="separator"></div>
-      <button type="button" class="btn btn-warning" @click="$emit('checkOut')">
+
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        @click="$emit('checkOut')"
+      >
         Check Out
       </button>
     </base-card>

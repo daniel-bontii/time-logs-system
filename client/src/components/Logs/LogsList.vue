@@ -10,6 +10,9 @@
         <th>Indicator</th>
       </template>
       <template #table-body>
+        <tr v-if="logs.length < 1">
+          <td>No logs yet</td>
+        </tr>
         <tr :key="log.userId" v-for="log in logs">
           <td>{{ log.name }}</td>
           <td>{{ log.date }}</td>

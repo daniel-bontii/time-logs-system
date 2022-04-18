@@ -9,20 +9,24 @@
         <th></th>
       </template>
       <template #table-body>
-        <tr :key="user.userId" v-for="user in users">
+        <tr v-if="users.length < 1">
+          <td>No users added yet</td>
+        </tr>
+        <tr v-else :key="user.userId" v-for="user in users">
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.department }}</td>
 
           <td>
-            <span
-              ><router-link :to="`/users/${user.userId}/logs`">
-                <img
-                  src="../../assets/list-svgrepo-com.svg"
-                  width="25"
-                  alt="list svg"
-                /> </router-link
-            ></span>
+            <span>
+              <img
+                src="../../assets/list-svgrepo-com.svg"
+                width="25"
+                alt="list
+              svg"
+                @click="$emit('viewLogs', user.userId)"
+              />
+            </span>
             <span>
               <img
                 src="../../assets/user-edit-svgrepo-com.svg"

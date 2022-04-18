@@ -17,12 +17,6 @@ export default {
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  /* -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
-  /* text-align: center; */
-  /* color: #2c3e50; */
-  /* margin-top: 60px; */
-  /* background-color: rgb(255, 255, 255); */
 }
 
 .early {
@@ -33,5 +27,19 @@ export default {
 }
 .intime {
   background-color: rgba(255, 217, 0, 0.1);
+}
+.deleteUserModal {
+  top: 8vh;
+  left: 30%;
+  margin: 0;
+  width: 35%;
+  height: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 </style>
