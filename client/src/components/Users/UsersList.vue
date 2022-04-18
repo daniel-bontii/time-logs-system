@@ -18,14 +18,6 @@
           <td>{{ user.department }}</td>
 
           <td>
-            <!-- <span
-              ><router-link :to="`/users/${user.userId}/logs`">
-                <img
-                  src="../../assets/list-svgrepo-com.svg"
-                  width="25"
-                  alt="list svg"
-                /> </router-link
-            ></span> -->
             <span>
               <img
                 src="../../assets/list-svgrepo-com.svg"
