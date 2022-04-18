@@ -99,6 +99,7 @@
       v-if="role === 'admin' && activeComponent === 'users-list'"
       class="container users"
       :users="users"
+      @view-logs="viewUserLogs"
       @update-user="updateUser"
       @delete-user="showDeleteDialog"
       @show-form="showForm"
@@ -129,6 +130,7 @@ export default {
   data() {
     return {
       loggedInUser: null,
+      adminId: null,
       role: null,
       activeComponent: "users-list",
       users: [],
@@ -295,6 +297,12 @@ export default {
       localStorage.removeItem("login");
       location.reload();
     },
+    viewUserLogs(_userId) {
+      this.$router.push({
+        name: "userLogs",
+        params: { userId: _userId, adminId: this.adminId },
+      });
+    },
   },
 
   async mounted() {
@@ -308,6 +316,7 @@ export default {
       .then((res) => {
         this.loggedInUser = res.data;
         this.role = res.data.role;
+        this.adminId = res.data.userId;
       })
       .catch((error) => {
         if (error.response) {

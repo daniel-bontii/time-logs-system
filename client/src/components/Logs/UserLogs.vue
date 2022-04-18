@@ -1,7 +1,12 @@
 <template>
   <base-card class="container">
-    <router-link v-if="role === 'admin'" to="/dashboard">
-      <base-button>Dashboard</base-button>
+    <router-link
+      v-if="role === 'admin'"
+      :to="`/users/${this.$route.params.adminId}/dashboard`"
+    >
+      <button type="button" role="button" class="btn btn-secondary">
+        Dashboard
+      </button>
     </router-link>
     <base-table>
       <template #caption>Logs List</template>
@@ -53,6 +58,7 @@ export default {
   },
 
   mounted() {
+    console.log(this.$route.params);
     this.getUserLogs();
   },
 };

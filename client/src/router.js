@@ -24,6 +24,7 @@ const router = createRouter({
     },
     {
       path: "/users/:userId/logs",
+      name: 'userLogs',
       component: UserLogs,
       props: { role: "admin" },
     },
