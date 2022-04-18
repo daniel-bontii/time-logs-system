@@ -37,12 +37,27 @@
         Add Employee
       </button>
     </base-card>
-
-    <check-in-out
-      v-if="role === 'user'"
-      @check-in="checkUserIn"
-      @check-out="checkUserOut"
-    ></check-in-out>
+    <div>
+      <transition>
+        <div
+          :class="
+            toastMessage.includes('successful')
+              ? 'alert alert-success'
+              : 'alert alert-danger'
+          "
+          role="alert"
+          name="msgToast"
+          v-if="showToast"
+        >
+          {{ toastMessage }}
+        </div>
+      </transition>
+      <check-in-out
+        v-if="role === 'user'"
+        @check-in="checkUserIn"
+        @check-out="checkUserOut"
+      ></check-in-out>
+    </div>
 
     <base-card v-if="isAddingEmployee">
       <employee-form
@@ -95,6 +110,8 @@ export default {
       isAddingEmployee: false,
       errorMessage: null,
       newUser: { userId: null, name: "", email: "", department: "" },
+      toastMessage: null,
+      showToast: false,
     };
   },
   components: {
@@ -168,19 +185,43 @@ export default {
       this.newUser[field] = event.target.value;
     },
 
+    displayToast(message) {
+      this.toastMessage = message;
+      this.showToast = true;
+      setTimeout(() => location.reload(), 2000);
+      this.dismissToast();
+    },
+    catchError(err) {
+      if (err.response) {
+        this.displayToast(err.response.data.message);
+      }
+    },
+
     async checkUserIn() {
-      await axios.post(
-        `http://localhost:8080/timelogs-api/v1/logs/${this.loggedInUser.userId}/checkin`,
-        { date: new Date().toISOString() }
-      );
-      location.reload();
+      await axios
+        .post(
+          `http://localhost:8080/timelogs-api/v1/logs/${this.loggedInUser.userId}/checkin`,
+          { date: new Date().toISOString() }
+        )
+        .then(() => {
+          this.displayToast("Check in successful");
+        })
+        .catch((error) => {
+          this.catchError(error);
+        });
     },
     async checkUserOut() {
-      await axios.put(
-        `http://localhost:8080/timelogs-api/v1/logs/${this.loggedInUser.userId}/checkout`,
-        { date: new Date().toISOString() }
-      );
-      location.reload();
+      await axios
+        .put(
+          `http://localhost:8080/timelogs-api/v1/logs/${this.loggedInUser.userId}/checkout`,
+          { date: new Date().toISOString() }
+        )
+        .then(() => {
+          this.displayToast("Check out successful");
+        })
+        .catch((error) => {
+          this.catchError(error);
+        });
     },
   },
 
@@ -212,13 +253,22 @@ export default {
 .users {
   border: 1px solid rgba(255, 103, 103, 0.2);
 }
-.loginSuccess-enter-from {
+
+.msgToast-enter-from {
   opacity: 0;
 }
-.loginSuccess-enter-to {
+.msgToast-enter-to {
   opacity: 1;
 }
-.loginSuccess-enter-active {
+.msgToast-enter-active {
   transition: all 2s ease;
+}
+
+.alert {
+  width: 25%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
