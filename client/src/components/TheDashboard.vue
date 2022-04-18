@@ -212,4 +212,13 @@ export default {
 .users {
   border: 1px solid rgba(255, 103, 103, 0.2);
 }
+.loginSuccess-enter-from {
+  opacity: 0;
+}
+.loginSuccess-enter-to {
+  opacity: 1;
+}
+.loginSuccess-enter-active {
+  transition: all 2s ease;
+}
 </style>
