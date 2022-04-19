@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 @RestController
 @RequestMapping("/timelogs-api/v1/users")
@@ -43,6 +44,10 @@ public class UserController {
 
         if (check != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already in use");
+        }
+
+        if (user.getEmail() == null || user.getDepartment() == null || user.getName() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill all fields");
         }
 
         User newUser = new User();
