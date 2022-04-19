@@ -16,4 +16,6 @@ public interface LogRepository extends CrudRepository<Log, Long> {
 
     @Query("SELECT new map(l.logId as logId, l.timeIn as timeIn, l.timeOut as timeOut, l.indicator as indicator, l.date as date, u.name as name) FROM Log l join User u ON l.userId = u.userId")
     public Iterable<Log> findByUserNameAndLogs();
+
+    public Iterable<Log> findByDate(Date date);
 }
