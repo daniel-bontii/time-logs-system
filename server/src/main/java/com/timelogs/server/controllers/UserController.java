@@ -45,6 +45,10 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already in use");
         }
 
+        if (user.getEmail() == null || user.getDepartment() == null || user.getName() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please fill all fields");
+        }
+
         User newUser = new User();
         newUser.setName(user.getName());
         newUser.setEmail(user.getEmail());
