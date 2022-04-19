@@ -115,9 +115,9 @@ public class LogController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please check in first");
         }
 
-        Log checkCheckOut = this.logRepository.findByDateAndTimeOutAndUserId(
+
+        Log checkCheckOut = this.logRepository.findByDateAndUserIdAndTimeOutNotNull(
                 Date.valueOf(log.getDate().substring(0, 10)),
-                Time.valueOf(log.getDate().substring(11, 16) + ":00"),
                 userId);
 
         if (checkCheckOut != null) {
