@@ -25,6 +25,9 @@
                 alt="list
               svg"
                 @click="$emit('viewLogs', user.userId)"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="View Logs"
               />
             </span>
             <span>
@@ -33,6 +36,9 @@
                 width="30"
                 alt="edit user svg"
                 @click="$emit('updateUser', user.userId)"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Update User"
               />
             </span>
             <span>
@@ -41,6 +47,9 @@
                 width="30"
                 alt="delete user svg"
                 @click="$emit('deleteUser', user.userId)"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Delete User"
               />
             </span>
           </td>
