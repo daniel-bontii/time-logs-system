@@ -222,6 +222,7 @@ export default {
       this.idToDelte = userId;
       this.isDeletingUser = true;
     },
+    
     hideDeleteDialogue() {
       this.isDeletingUser = false;
     },

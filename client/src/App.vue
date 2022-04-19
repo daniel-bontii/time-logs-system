@@ -3,8 +3,49 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "App",
+  data() {
+    return {
+      allUsers: [],
+      logsToday: [],
+    };
+  },
+  async mounted() {
+    let now = new Date();
+    let millisTill10 =
+      new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 0, 0) -
+      now;
+    if (millisTill10 < 0) {
+      millisTill10 += 86400000;
+    }
+    setTimeout(function () {
+      axios.get("http://localhost:8080/timelogs-api/v1/users").then((res) => {
+        this.allUsers = res.data;
+      });
+
+      axios
+        .get(
+          `http://localhost:8080/timelogs-api/v1/logs/all/${new Date().toISOString()}`
+        )
+        .then((res) => {
+          this.logsToday = res.data;
+
+          for (let user of this.allUsers) {
+            const loggedInToday = this.logsToday.find(
+              (log) => log.userId === user.userId
+            );
+            if (loggedInToday === undefined) {
+              axios.post(
+                `http://localhost:8080/timelogs-api/v1/logs/${user.userId}/checkin`,
+                { date: new Date().toISOString(), indicator: "absent" }
+              );
+            }
+          }
+        });
+    }, millisTill10);
+  },
 };
 </script>
 
@@ -24,6 +65,9 @@ export default {
 }
 .late {
   background-color: rgba(255, 0, 0, 0.1);
+}
+.absent {
+  background-color: rgba(255, 0, 0, 0.3);
 }
 .intime {
   background-color: rgba(255, 217, 0, 0.1);

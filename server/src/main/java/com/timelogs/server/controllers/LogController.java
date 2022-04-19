@@ -67,6 +67,11 @@ public class LogController {
         return this.logRepository.findByUserNameAndLogs();
     }
 
+    @GetMapping("/all/{date}")
+    public Iterable<Log> getLogsByDate(@PathVariable(name = "date") String date) {
+        return this.logRepository.findByDate(Date.valueOf(date.substring(0, 10)));
+    }
+
     @GetMapping("/{userId}")
     public Iterable<Log> getUserLogs(@PathVariable(name = "userId") Long userId) {
         return this.logRepository.findByUserId(userId);
@@ -86,13 +91,18 @@ public class LogController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You already checked in today");
 
         }
-        newLog.setTimeIn(Time.valueOf(TIME_IN + ":00"));
+
         newLog.setUserId(userId);
 
-        user.getLogs().add(newLog);
+        if (log.getIndicator() == null) {
+            newLog.setTimeIn(Time.valueOf(TIME_IN + ":00"));
+            String checkInIndicator = calculateIndicator(TIME_IN);
+            newLog.setIndicator(checkInIndicator);
+        } else {
+            newLog.setIndicator(log.getIndicator());
+        }
 
-        String checkInIndicator = calculateIndicator(TIME_IN);
-        newLog.setIndicator(checkInIndicator);
+        user.getLogs().add(newLog);
 
         this.userRepository.save(user);
 
@@ -114,7 +124,6 @@ public class LogController {
         if (checkIn == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Please check in first");
         }
-
 
         Log checkCheckOut = this.logRepository.findByDateAndUserIdAndTimeOutNotNull(
                 Date.valueOf(log.getDate().substring(0, 10)),
