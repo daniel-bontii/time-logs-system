@@ -1,42 +1,28 @@
-package com.timelogs.server.controllers;
-
-import java.util.Optional;
+package com.timelogs.server.services;
 
 import com.timelogs.server.entities.User;
 import com.timelogs.server.entities.UserDTO;
 import com.timelogs.server.repositories.UserRepository;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-@RestController
-@RequestMapping("/timelogs-api/v1/users")
-@CrossOrigin(origins = "http://localhost:8081")
-public class UserController {
+import java.util.Optional;
 
+public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
-    public UserController(final UserRepository userRepository) {
+    public UserServiceImpl(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    @GetMapping
+    @Override
     public Iterable<User> getUsers() {
         return this.userRepository.getUserDetails();
     }
 
-    @PostMapping
-    public User addUser(@RequestBody UserDTO user) {
+    @Override
+    public User addUser(UserDTO user) {
 
         User check = this.userRepository.findByEmail(user.getEmail());
 
@@ -58,8 +44,8 @@ public class UserController {
         return this.userRepository.save(newUser);
     }
 
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable(name = "id") Long id, @RequestBody UserDTO user) {
+    @Override
+    public User updateUser(Long id, UserDTO user) {
 
         Optional<User> userToUpdateOptional = this.userRepository.findById(id);
 
@@ -85,12 +71,12 @@ public class UserController {
 
     }
 
-    @DeleteMapping("/{id}")
-    public User deleteUser(@PathVariable(name = "id") Long id) {
+    @Override
+    public User deleteUser(Long id) {
 
         Optional<User> userToDeleteOptional = this.userRepository.findById(id);
 
-        if (!userToDeleteOptional.isPresent()) {
+        if (userToDeleteOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user");
         }
 
@@ -98,5 +84,4 @@ public class UserController {
         this.userRepository.delete(userToDelete);
         return userToDelete;
     }
-
 }
