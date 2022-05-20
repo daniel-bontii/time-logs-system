@@ -7,20 +7,18 @@ import com.timelogs.server.repositories.LogRepository;
 import com.timelogs.server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Optional;
 
-public class LogServiceImpl {
-    private LogRepository logRepository;
-    private UserRepository userRepository;
+public class LogServiceImpl implements LogService {
+    private final LogRepository logRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public LogServiceImpl(LogRepository logRepository, UserRepository userRepository) {
+    public LogServiceImpl(final LogRepository logRepository, final UserRepository userRepository) {
         this.logRepository = logRepository;
         this.userRepository = userRepository;
     }
@@ -32,7 +30,7 @@ public class LogServiceImpl {
     private User checkValidUser(Long userId) {
         Optional<User> userOptional = this.userRepository.findById(userId);
 
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid User");
         }
 
@@ -45,7 +43,7 @@ public class LogServiceImpl {
 
         if ((ARRIVAL_HOUR <= 6) || (ARRIVAL_HOUR <= 7 && ARRIVAL_MINUTE <= 30)) {
             return "early";
-        } else if ((ARRIVAL_HOUR == 7 && ARRIVAL_MINUTE >= 30) ||
+        } else if ((ARRIVAL_HOUR == 7) ||
                 (ARRIVAL_HOUR == 8 && ARRIVAL_MINUTE >= 0 && ARRIVAL_MINUTE <= 30)) {
             return "in time";
         } else {
@@ -53,19 +51,24 @@ public class LogServiceImpl {
         }
     }
 
+
+    @Override
     public Iterable<Log> getUserNameAndLogs() {
         return this.logRepository.findByUserNameAndLogs();
     }
 
-    public Iterable<Log> getLogsByDate(@PathVariable(name = "date") String date) {
+    @Override
+    public Iterable<Log> getLogsByDate( String date) {
         return this.logRepository.findByDate(Date.valueOf(date.substring(0, 10)));
     }
 
-    public Iterable<Log> getUserLogs(@PathVariable(name = "userId") Long userId) {
+    @Override
+    public Iterable<Log> getUserLogs(Long userId) {
         return this.logRepository.findByUserId(userId);
     }
 
-    public Log checkUserIn(@RequestBody LogDTO log, @PathVariable(name = "userId") Long userId) {
+    @Override
+    public Log checkUserIn(LogDTO log, Long userId) {
         final String TIME_AND_DATE = log.getDate();
         final String TIME_IN = TIME_AND_DATE.substring(11, 16);
         Log newLog = new Log();
@@ -94,14 +97,15 @@ public class LogServiceImpl {
         this.userRepository.save(user);
 
         Optional<Log> latestLog = this.logRepository.findById(user.getLogs().get(user.getLogs().size() - 1).getLogId());
-        if (!latestLog.isPresent()) {
+        if (latestLog.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Couldn't save log");
         }
         return latestLog.get();
 
     }
 
-    public Log checkUserOut(@RequestBody LogDTO log, @PathVariable(name = "userId") Long userId) {
+    @Override
+    public Log checkUserOut(LogDTO log, Long userId) {
 
         checkValidUser(userId);
 
