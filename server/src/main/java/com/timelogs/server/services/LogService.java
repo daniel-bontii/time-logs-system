@@ -5,7 +5,7 @@ import com.timelogs.server.entities.LogDTO;
 
 public interface LogService {
     Iterable<Log> getUserNameAndLogs();
-    public Iterable<Log> getLogsByDate(String date);
+    Iterable<Log> getLogsByDate(String date);
     Iterable<Log> getUserLogs(Long userId);
     Log checkUserIn(LogDTO log, Long userId);
     Log checkUserOut(LogDTO log,  Long userId);
