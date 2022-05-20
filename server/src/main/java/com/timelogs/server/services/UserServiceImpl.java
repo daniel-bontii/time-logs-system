@@ -5,10 +5,12 @@ import com.timelogs.server.entities.UserDTO;
 import com.timelogs.server.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
+@Service
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
@@ -49,7 +51,7 @@ public class UserServiceImpl implements UserService{
 
         Optional<User> userToUpdateOptional = this.userRepository.findById(id);
 
-        if (!userToUpdateOptional.isPresent()) {
+        if (userToUpdateOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user");
         }
 
